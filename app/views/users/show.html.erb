@@ -1,0 +1,38 @@
+<h1>@<%= @user.username %>'s Profile</h1>
+
+<div class = "container">
+	<div class = "row">
+		<div class = "col-sm-offset-1 col-sm-10">
+
+		<table class="table table-hover">
+			<thead>
+				<th>User</th>
+				<th>Post</th>
+				<th>Created At</th>
+				<th>Following</th>
+				<th>Followed By</th>
+			</thead>
+			
+			<tbody>
+
+			<% @user.tweets.each do |twee| %>
+
+				<tr>
+					<td><%= twee.user.email %></td>
+					<td><%= twee.post %></td>
+					<td><%= distance_of_time_in_words(Time.now, twee.updated_at.localtime) %></td>
+					<td><%= link_to @leadercount, tweets_path %></td>
+					<td><%= link_to @followercount, follower_path %></td>
+					<td><%= link_to "View", tweet_path(id: twee.id), class:"btn btn-primary" %></td>
+				</tr>
+
+			<% end %>
+					
+			</tbody>
+				
+		</table>
+		<%= link_to "Home", tweets_path, class:"btn btn-primary"%>
+
+		</div>
+	</div>
+</div>

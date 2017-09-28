@@ -1,0 +1,29 @@
+<h2> Profile </h2>
+
+<table class="table table-hover">
+			<thead>
+				<th>User</th>
+				<th>Post</th>
+				<th>Created At</th>
+				<th>Following</th>
+				<th>Followed By</th>
+			</thead>
+			
+			<tbody>
+
+
+
+	<% @userprofile.tweets.each do |twee| %>
+
+					<tr>
+						<td><%= twee.user.username %></td>
+						<td><%= twee.post %></td>
+						<td><%= distance_of_time_in_words(Time.now, twee.updated_at.localtime) %></td>
+						<td><%= link_to @leadercount, tweets_path %></td>
+						<td><%= link_to @followercount, follower_path %></td>
+					</tr>
+	<% end %>
+				</tbody>
+</table>
+
+<div><%= link_to "Back", tweets_path, class:"btn btn-primary" %></div>

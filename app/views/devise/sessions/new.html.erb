@@ -1,0 +1,70 @@
+<h2>Log in</h2>
+
+<div class="col-sm-4">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password, autocomplete: "off" %>
+    </div>
+
+    <% if devise_mapping.rememberable? -%>
+      <div class="field">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+      </div>
+    <% end -%>
+
+    <div class="actions">
+      <%= f.submit "Log in" %>
+    </div>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+</div>
+
+<div class="col-sm-6 tweetcolsignin">
+<center><h3> It's Twitter Time! </h3></center>
+  <% Tweet.all.each do |twee| %>
+                <div class="panel panel-default post-panel">
+
+                  <div class="panel-body row tweetfullbody">
+                    <div class="col-sm-2 tweetprofilepic">
+                    </div>
+                    <div class="col-sm-10 tweettext">
+
+                      <%= "@#{twee.user.username}" %>
+                      <%= distance_of_time_in_words(Time.now, twee.updated_at.localtime) %>
+                      <p>
+                          <%= twee.post %>
+                      </p>
+                      <p data-turbolinks="false">
+                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <%= link_to tweet_path(id: twee.id) do %>
+                          <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                        <%= twee.replies.count %>
+                        <% end %>
+                        </button>
+                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <%= link_to edit_tweet_path(id: twee.id) do %>
+                          <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Edit
+                        <% end %>
+                        </button>
+                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <%= link_to tweet_path(id: twee.id), method: :delete do %>
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        <% end %>
+                        </button>
+                        
+                        
+
+                      </p>
+                    </div>
+                  </div>
+                </div>
+  <% end %>
+</div>

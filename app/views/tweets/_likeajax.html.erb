@@ -1,0 +1,21 @@
+<% @lik = Like.find_by(user_id: current_user.id, tweet_id: twee.id) %>
+                      
+                      
+  <% if @lik == nil %>
+
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+    <%= link_to tweet_likes_path(tweet_id: twee.id), method: :post, remote: true do %>
+      <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+      <%= twee.likes.count %>
+    <% end %>
+    </button>
+    
+  <% else %>
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+    <%= link_to tweet_like_path(tweet_id: twee.id, id: @lik.id), method: :delete, remote: true do %>
+      <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+      <%= twee.likes.count %>
+    <% end %>
+    </button>
+
+  <% end %>

@@ -1,0 +1,30 @@
+				<div class="row">
+					<div class="panel panel-info">
+			  			<div class="panel-heading">
+                        	<h3 class = "panel-title">REPLY FORM</h3>
+			  			</div>
+			  			<%= form_for @repli, url: tweet_replies_path(tweet_id: @twee.id), method: :post, class:"form-horizontal" do |f| %>
+			  			<div class="panel-body">
+							
+    						<%= f.hidden_field :tweet_id %>
+
+							<div class ="form-group row">
+    							<%= f.label :reply, class:"col-sm-2 control-label" %>
+    							<div class="col-sm-10">
+    								<%= f.text_area :post, class:"form-control"%>
+    							</div>
+							</div>
+						</div>
+			  			<div class="panel-footer">						
+							<div class="form-group row">
+    							<div class="col-sm-offset-2 col-sm-10">
+									<%= f.submit 'Reply', class:"btn btn-success" %>
+									<%= link_to 'Back', '#', id: "BackButtonFromNewReplyForm", class:"btn btn-warning" %>
+								<!-- 	<button class="btn btn-warning" id="HideReplyButton">Back
+									</button> -->
+								</div>
+							</div>
+						</div>
+						<% end %>
+					</div>
+				</div>

@@ -1,0 +1,55 @@
+.navbar { margin-bottom: 0 }
+.navbar-custom {
+    color: #FFFFFF;
+    background-color: #E5F5FF;
+}
+
+// Tweeter Panel-Header
+.tweeter-pic {
+	width: 50px;
+	display: inline-block;
+	position: absolute;
+	top: 10px;
+	left: 15px;
+}
+
+.tweeter-pic img {
+	width: 50px;
+	height: 50px;
+}
+
+.tweeter-details {
+	display: block;
+	margin-left: 65px;
+}
+//End of Tweeter Panel-Header
+
+// Reply Panel-Header
+.panel-heading{
+	position: relative;
+}
+
+.reply-pic{
+	// inline-block to occupy a part of the width
+	display: inline-block;
+	position: absolute;
+	top: 10px;
+	left: 15px; 
+}
+
+.reply-pic img{
+	width: 50px;
+	height: 50px;
+}
+
+.reply-details{
+	// block to occupy whole width
+	display: block;
+	margin-left: 65px;
+}
+// End of Reply Panel-Header
+
+.login_button {
+	margin-left: 10px;
+	display: inline-block;
+}

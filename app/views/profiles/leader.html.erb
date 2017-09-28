@@ -1,0 +1,17 @@
+<h2> All Your Leaders </h2>
+
+<% @user.leaders.each do |leaders| %>
+
+<p><%= image_tag leaders.follower.avatar, :size => "50x50" %> </p>
+
+    <p><%= link_to leaders.follower.username, user_path(leaders.follower.id) %> </p>
+
+	<span class="users_buttons">
+		<%= link_to "View", user_path(id: leaders.follower.id), class:"btn btn-info" %>
+		<% if @followin = Following.find_by(leader_id: leaders.follower.id, follower_id: current_user.id) %>
+		<% end %>
+	</div>
+
+<% end %>
+
+<%= link_to "Back", tweets_path %>

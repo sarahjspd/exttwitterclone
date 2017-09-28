@@ -1,0 +1,87 @@
+<!-- image_tag current_user.avatar, :size => "260x180"
+
+image_tag current_user.avatar.thumb -->
+
+
+<h1>My Tweet and a list of replies</h1>
+
+<div class = "container">
+	<div class = "row">
+<!-- 		<div class = "col-sm-offset-4 col-sm-4"> -->
+			<div class = "col-sm-4">
+			
+			<div class="row" id = "TweetShow" >
+				<div class="panel panel-primary">
+		  			<div class="panel-heading">
+	  					<div class='tweeter-pic'>
+		  					<%= image_tag @twee.user.avatar %>
+					  	</div>
+	  					<div class='tweeter-details'>
+					  		<p>Tweet by <%= @twee.user.username %></p>
+					  		<p><%= @twee.user.email %></p>
+					  	</div>
+		  			</div>
+		  			<div class="panel-body">
+		    			<%= @twee.post %>
+		  			</div>
+		  			<div class="panel-footer">
+		  				<% if @twee.user.id == current_user.id %>
+
+							<!--link_to creates <a> which will redirect, so what happens after the jquery on will restart over -->	
+		  					<button class="btn btn-primary" id="EditButtonFromTweetShow">
+		  						<span class="glyphicon glyphicon-pencil"></span> Edit
+		  					</button>	
+
+							<span class = "badge glyphicon glyphicon-heart"><%= @likcount %></span>
+
+							<%= link_to tweets_path, class:"btn btn-warning" do %><span class="glyphicon glyphicon-circle-arrow-left"></span>Back
+							<% end %>
+
+							<button class="btn btn-success" id="ReplyButtonFromTweetShow">Reply
+							</button>
+
+
+						<% end %>
+		  			</div>
+				</div>
+			</div>
+
+			<div class="row" id = "EditTweetForm" >
+				<%= render "tweets/edit" %>
+			</div>
+
+			<% @twee.replies.each do |reply| %>
+				<div class="row">
+					<div class="panel panel-danger">
+			  			<div class="panel-heading">
+			  				<div class = "reply-pic">
+			  					<%= image_tag reply.user.avatar%>
+			  				</div>
+			  				<div class = "reply-details">
+			  					<p>Replied by <%= reply.user.username %></p>
+			  					<p><%= reply.user.email %></p>
+						  	</div>
+			  			</div>
+			  			<div class="panel-body">
+			    			<%= reply.post %>
+			    			<%= distance_of_time_in_words(Time.now, reply.updated_at.localtime) %>
+			    			<div> LIKE </div>
+			  			</div>
+			  			<div class="panel-footer">
+							<%= link_to edit_tweet_reply_path(tweet_id: @twee.id, id: reply.id), class:"btn btn-primary" do %><span class="glyphicon glyphicon-pencil"></span> Edit 
+							<% end %>		
+							<%= link_to tweet_reply_path(tweet_id: @twee.id, id: reply.id), method: :delete, class:"btn btn-warning" do %><span class="glyphicon glyphicon-trash"></span> Delete
+							<% end %>
+			  			</div>
+	 				</div>
+				</div>
+			<% end %>
+
+		</div>
+
+		<div class = "col-sm-offset-1 col-sm-4" id = "NewTweetForm">
+			<%= render "replies/newreply" %>
+		</div>
+
+	</div>	
+</div>

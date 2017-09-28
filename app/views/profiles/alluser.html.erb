@@ -1,0 +1,65 @@
+<h2> Find Other Tweeters! </h2>
+
+<div class = "container">
+	<div class = "row">
+<!-- 	<div class = "col-sm-offset-4 col-sm-4"> -->
+		<% @allprofile.each do |alluser| %>
+			<div class = "col-sm-offset-1 col-sm-4">
+				<div class="row">
+					<div class="panel panel-danger">
+						<div class="panel-body">
+<!-- 	 					 	render "profiles/alluserajax", alluser: alluser -->
+							<div class="user-pic">
+								<%= image_tag alluser.avatar, :size => "200x150"%>
+							</div>
+							<div class="user-details">
+								<div class = "username row">
+									<b><%= alluser.username %></b>
+								</div>
+								</br>
+								</br>
+								<div class = "leaders_followers row">
+										<div class="col-sm-4">
+											<p>@Tweets</p>
+										</div>
+										<div class="col-sm-4">
+											<p>@Leaders</p>
+										</div>
+										<div class="col-sm-4">
+											<p>@Followers</p>
+										</div>
+
+										<div class="col-sm-4 text-center">
+											<p><%= alluser.tweets.count %></p>
+										</div>
+										<div class="col-sm-4 text-center">
+											<p><%= alluser.leaders.count %></p>
+										</div>
+										<div class="col-sm-4 text-center">
+											<p><%= alluser.followers.count %></p>
+										</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel-footer users_buttons">
+							<%= link_to "View", user_path(id: alluser.id), class:"btn btn-info" %>
+							<% if @followin = Following.find_by(leader_id: alluser.id, follower_id: current_user.id) %>
+								<%= link_to "Unfollow Me", user_following_path(user_id: alluser.id, id: @followin.id), method: :delete, class:"btn btn-danger", remote: true%>
+
+							<% else %>
+								<%= link_to "Follow Me", user_followings_path(user_id: alluser.id), method: :post, class:"btn btn-success", remote: true%>
+							<% end %>
+							<%= link_to "Back", tweets_path, class:"btn btn-primary" %>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+
+
+
+

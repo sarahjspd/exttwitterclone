@@ -1,0 +1,190 @@
+<div class="twittertime"><h2>It's Twitter Time!</h2></div>
+<div class="container-fluid indexfull">
+    <div class="row">
+        <div class="col-sm-3 indexprofilecol">
+        	<center>
+            <div class="indexprofilebluecol">
+            	<div class="profileimage">
+            		<%= image_tag @user.avatar, :size => "100x100"%>
+            	</div>
+            </div>
+            </center>
+            <div class="indexprofilewhitecol">
+                <p class="indexprofilewhitenamecol"><b>@<%= @user.username %></b></p>
+                <p class="indexprofilewhiteusernamecol"><small><code><%= @user.email %></code></small></p>
+            </div>
+            <table class="table table-hover indexprofiletext">
+                <thead>
+                    <th>
+                        <p class="indexprofilewhitetextcol"><i>Tweets</i></p>
+                    </th>
+                    <th>
+                        <p class="indexprofilewhitetextcol"><i>Following</i></p>
+                    </th>
+                    <th>
+                        <p class="indexprofilewhitetextcol"><i>Followers</i></p>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr class="indexprofilewhitetextnum">
+                        <td>
+                            <%= link_to @tweecount, user_path(id: current_user.id) %>
+                        </td>
+                        <td>
+                            <%= link_to @leadercount, leader_path %>
+                        </td>
+                        <td>
+                            <%= link_to @followercount, follower_path %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+	            <div>
+                <center>
+		        <%= link_to "New Tweet", new_tweet_path, class:"btn btn-primary", id:"newtweet" %>
+		            <%= link_to "Explore", alluser_path, class:"btn btn-success"%>
+                </center>
+		        </div>
+        </div>
+
+        <div class="col-sm-6 tweetcol">
+
+          <div class="panel panel-default post-panel">
+            <div class="panel-body row newtweet">
+              <div class="col-sm-12">
+                <%= form_for @newtwee, url: tweets_path, method: :post, class:'form-horizontal' do |f| %>
+                    <div class="form-group row">
+
+                        <div class="col-sm-10 newtweetbody">
+                          <%= f.text_area :post, class: "form-control", rows:"2", placeholder: "My Tweet for the Day . . ." %>
+                        </div>
+                        <center><div class="createtweet">
+                          <%= f.submit "Create", class: "btn btn-info" %>
+                        </div></center>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+            <% @leadertweet.order(created_at: :desc).each do |twee| %>
+              <div class="panel panel-default post-panel">
+
+                <div class="panel-body row tweetfullbody">
+                  <div class="col-sm-2 tweetprofilepic">
+                    <%= image_tag twee.user.avatar, :size => "50x50"%>
+                  </div>
+                  <div class="col-sm-10 tweettext">
+
+                    <%= "@#{twee.user.username}" %>
+                    <%= distance_of_time_in_words(Time.now, twee.updated_at.localtime) %>
+                    <p>
+                        <%= twee.post %>
+                    </p>
+                    <p data-turbolinks="false">
+                      <button type="button" class="btn btn-default" aria-label="Left Align">
+                      <%= link_to tweet_path(id: twee.id) do %>
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                      <%= twee.replies.count %>
+                      <% end %>
+                      </button>
+                      <button type="button" class="btn btn-default" aria-label="Left Align">
+                      <%= link_to edit_tweet_path(id: twee.id) do %>
+                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Edit
+                      <% end %>
+                      </button>
+                      <button type="button" class="btn btn-default" aria-label="Left Align">
+                      <%= link_to tweet_path(id: twee.id), method: :delete do %>
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                      <% end %>
+                      </button>
+                      
+                      <span id="likeajax-<%= twee.id %>">
+
+                        <%= render 'tweets/likeajax', twee: twee %>
+
+                      </span>
+
+                    </p>
+              	  </div>
+                </div>
+              </div>
+            <% end %>
+        </div>
+        
+        <div class="col-sm-3 allusercol">
+
+  				<h4 class="card-title"><center> Find Other Tweeters! </center></h4>
+  				
+  				<div class="flex-row">
+                      <% @newtofollow.each do |alluser| %>
+
+                        <div class="panel panel-default post-panel2">
+
+                          <div class="panel-body row findothertweeters text-center">
+                            <a class="card-link"><center>
+                              <%= link_to alluser.username, user_path(id: alluser.id) %>
+                            </a></center>
+                              <% leadercount = alluser.leaders.count %>
+                              <% followercount = alluser.followers.count %>
+
+                              <% if @followin = Following.find_by(leader_id: alluser.id, follower_id: current_user.id) %>
+
+                                <center><span class="glyphicon glyphicon-plane" aria-hidden="true"> <%= link_to leadercount, leader_path %></span></center>
+
+                                <center><span class="glyphicon glyphicon-user" aria-hidden="true"> <%= link_to followercount, follower_path %></span></center>
+
+              						      <%= link_to user_following_path(user_id: alluser.id, id: @followin.id), method: :delete do %>
+                                  <button type="button" class="btn btn-default unfollowmebutton" aria-label="Left Align">    
+                                    <small>Unfollow me</small></button>
+                                <% end %>
+              					       <% else %>
+                                <center><span class="glyphicon glyphicon-plane" aria-hidden="true"> <%= link_to leadercount, leader_path %></span></center>
+
+                                <center><span class="glyphicon glyphicon-user" aria-hidden="true"> <%= link_to followercount, follower_path %></span></center>
+
+                                <%= link_to user_followings_path(user_id: alluser.id), method: :post do %>
+                                  <button type="button" class="btn btn-default" aria-label="Left Align">
+                						        <small>Follow Me</small>
+                                  </button>
+              					         <% end %>
+                              <% end %>
+
+                          </div>
+                        </div>
+                      <% end %>
+
+  				</div>
+		    </div>	
+	 </div>
+</div>
+
+				
+
+
+
+
+
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-7">
+                <div class="h2newtweet">
+                    <center><h3> Start A New Tweet Here </h3></center></div>
+                <br>
+                <%= form_for @newtwee, url: tweets_path, method: :post, class:'form-horizontal' do |f| %>
+                    <div class="form-group row">
+                        <%= f.label :tweet, class: "col-sm-2 control-label" %>
+                            <div class="col-sm-10">
+                                <%= f.text_area :post, class: "form-control", rows:"3", placeholder: "My Tweet for the Day . . ." %>
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <%= f.submit "Create", class: "btn btn-info" %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
