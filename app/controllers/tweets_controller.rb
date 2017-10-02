@@ -26,6 +26,10 @@ class TweetsController < ApplicationController
 		@userswholikedthesametweets = @lik.where(tweet_id: @culikedtweets).pluck(:user_id)
 		@tweetsrec = Tweet.where(user_id: @userswholikedthesametweets)
 
+		@followers = Following.where(follower_id: current_user.id)
+		@leaders = @followers.pluck(:leader_id)
+		@tweetsfollowrec = Tweet.where(user_id: @leaders)
+
 
 		# @tweelike = Tweet.find(params[:id])
 		# @likebutton = Like.find_by(user_id: current_user.id, tweet_id: @twee.id)

@@ -159,16 +159,38 @@
 	 </div>
 </div>
       <div class="row">
-        <div class="col-sm-12 recommendedtweets">
-				
+        <div class="col-sm-6 recommendedtweets">
+				  <center><h4>Tweets of Users that like the same posts as you</h4></center>
             <% @tweetsrec.order(created_at: :desc).each do |twee| %>
                 <div class="panel panel-default post-panel">
 
                   <div class="panel-body row tweetfullbody">
-                    <div class="col-sm-1 tweetprofilepic">
+                    <div class="col-sm-3 tweetprofilepic">
                       <%= image_tag twee.user.avatar, :size => "35x35"%>
                     </div>
-                    <div class="col-sm-3 tweettext">
+                    <div class="col-sm-9 tweettext">
+
+                      <%= "@#{twee.user.username}" %>
+                      <%= distance_of_time_in_words(Time.now, twee.updated_at.localtime) %>
+                      <p>
+                          <%= twee.post %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+            <% end %>
+        </div>
+
+        <div class="col-sm-6 recommendedtweets">
+          <center><h4>Tweets of Users you follow</h4></center>
+            <% @tweetsfollowrec.order(created_at: :desc).each do |twee| %>
+                <div class="panel panel-default post-panel">
+
+                  <div class="panel-body row tweetfullbody">
+                    <div class="col-sm-3 tweetprofilepic">
+                      <%= image_tag twee.user.avatar, :size => "35x35"%>
+                    </div>
+                    <div class="col-sm-9 tweettext">
 
                       <%= "@#{twee.user.username}" %>
                       <%= distance_of_time_in_words(Time.now, twee.updated_at.localtime) %>
@@ -181,8 +203,6 @@
             <% end %>
         </div>
       </div>
-
-
 
 
     <hr>
