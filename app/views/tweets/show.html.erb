@@ -25,6 +25,12 @@ image_tag current_user.avatar.thumb -->
 		    			<%= @twee.post %>
 		  			</div>
 		  			<div class="panel-footer">
+		  				
+						<button class="btn btn-success" id="ReplyButtonFromTweetShow">Reply
+							</button>
+						<%= link_to tweets_path, class:"btn btn-warning" do %><span class="glyphicon glyphicon-circle-arrow-left"></span>Back
+
+
 		  				<% if @twee.user.id == current_user.id %>
 
 							<!--link_to creates <a> which will redirect, so what happens after the jquery on will restart over -->	
@@ -34,11 +40,9 @@ image_tag current_user.avatar.thumb -->
 
 							<span class = "badge glyphicon glyphicon-heart"><%= @likcount %></span>
 
-							<%= link_to tweets_path, class:"btn btn-warning" do %><span class="glyphicon glyphicon-circle-arrow-left"></span>Back
+							
 							<% end %>
 
-							<button class="btn btn-success" id="ReplyButtonFromTweetShow">Reply
-							</button>
 
 
 						<% end %>
